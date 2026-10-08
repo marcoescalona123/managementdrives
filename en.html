@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MD Conversation Compass · BrainKo</title>
+<meta name="description" content="Recommendations to open, lead and close a conversation based on your Management Drives color, the other person's color, your generations and your relationship.">
+<meta property="og:title" content="MD Conversation Compass · BrainKo">
+<meta property="og:description" content="How to approach a session based on Management Drives colors and generations.">
+<meta name="theme-color" content="#111418">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='12' height='12' fill='%231E9E4A'/%3E%3Crect x='12' width='12' height='12' fill='%23F4C430'/%3E%3Crect x='24' width='12' height='12' fill='%23EE7B30'/%3E%3Crect y='12' width='12' height='12' fill='%231D5AA5'/%3E%3Crect x='12' y='12' width='12' height='12' fill='%23D7263D'/%3E%3Crect x='24' y='12' width='12' height='12' fill='%237D58A5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F5F2; --surface:#FFFFFF; --surface-2:#F0EEEA; --ink:#15171A; --ink-2:#4A4F57; --ink-3:#7A808A;
+  --line:#E3E0DA; --accent:#15171A; --accent-ink:#FFFFFF; --focus:#1D5AA5;
+  --amarillo:#F4C430; --verde:#1E9E4A; --naranja:#EE7B30; --azul:#1D5AA5; --rojo:#D7263D; --morado:#7D58A5;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+  --logo-filter:none;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1114; --surface:#181B20; --surface-2:#20242A; --ink:#F1F2F4; --ink-2:#BCC1C8; --ink-3:#8A909A;
+    --line:#2B3038; --accent:#F1F2F4; --accent-ink:#111418; --focus:#7FB0F0;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
+    --logo-filter:invert(1);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1114; --surface:#181B20; --surface-2:#20242A; --ink:#F1F2F4; --ink-2:#BCC1C8; --ink-3:#8A909A;
+  --line:#2B3038; --accent:#F1F2F4; --accent-ink:#111418; --focus:#7FB0F0;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
+  --logo-filter:invert(1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 64px}
+header.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0 8px}
+header.top img{height:40px;width:auto;filter:var(--logo-filter)}
+.stripe{display:flex;height:4px;border-radius:2px;overflow:hidden;width:96px}
+.stripe span{flex:1}
+.hero{padding:18px 0 8px}
+.hero h1{font-size:clamp(26px,6vw,36px);line-height:1.15;margin:0 0 10px;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.hero p{margin:0;color:var(--ink-2);font-size:16px;text-wrap:pretty}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 16px;margin-top:14px;box-shadow:var(--shadow)}
+.step-h{display:flex;gap:12px;align-items:baseline;margin-bottom:12px}
+.num{flex:none;width:26px;height:26px;border-radius:50%;background:var(--surface-2);color:var(--ink-2);display:grid;place-items:center;font-size:13px;font-weight:700}
+.step.done .num{background:var(--accent);color:var(--accent-ink)}
+.step-h h2{font-size:17px;margin:0;font-weight:700}
+.step-h small{display:block;color:var(--ink-3);font-size:13.5px;font-weight:500;margin-top:2px}
+.grid{display:grid;gap:8px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:520px){.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.opt{appearance:none;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:11px 12px;text-align:left;font:inherit;cursor:pointer;display:flex;gap:10px;align-items:center;min-height:52px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--ink-3)}
+.opt:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.opt[aria-pressed="true"]{border-color:var(--ink);background:var(--surface-2)}
+.opt{min-width:0}.opt>span:not(.sw):not(.chk){min-width:0;flex:1;overflow-wrap:anywhere}
+.opt .sw{flex:none;width:22px;height:22px;border-radius:6px}
+.opt .t{display:block;font-weight:700;font-size:15px;line-height:1.2}
+.opt .s{display:block;color:var(--ink-3);font-size:12.5px;line-height:1.25;margin-top:2px}
+.opt[disabled]{opacity:.4;cursor:not-allowed}
+.opt .chk{margin-left:auto;flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line)}
+.opt[aria-pressed="true"] .chk{border-color:var(--ink);background:var(--ink);box-shadow:inset 0 0 0 3px var(--surface-2)}
+.pair{display:grid;grid-template-columns:1fr;gap:14px}
+.sub{font-size:13px;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;margin:4px 0 8px}
+.cta{position:sticky;bottom:0;padding:14px 0 calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 70%,transparent);margin-top:6px;z-index:5}
+.btn{appearance:none;border:0;border-radius:14px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;font-size:16px;padding:15px 18px;width:100%;cursor:pointer}
+.btn[disabled]{opacity:.35;cursor:not-allowed}
+.btn.off{opacity:.45}
+.btn,.opt{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.step.need{border-color:var(--rojo);box-shadow:0 0 0 3px color-mix(in srgb,var(--rojo) 25%,transparent);animation:nudge .5s}
+@keyframes nudge{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.sub.need{color:var(--rojo)}
+.btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.hint{color:var(--ink-3);font-size:13px;text-align:center;margin-top:8px}
+#result{margin-top:28px;scroll-margin-top:12px}
+.rhead{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 16px;box-shadow:var(--shadow)}
+.duo{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.who{border-radius:12px;padding:12px;background:var(--surface-2);min-width:0}
+.who .lbl{font-size:12px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.who .c{display:flex;align-items:center;gap:8px;font-weight:800;font-size:17px;margin-top:4px}
+.who .c i{width:14px;height:14px;border-radius:4px;flex:none}
+.who .g{color:var(--ink-2);font-size:13.5px;margin-top:2px}
+.arrow{color:var(--ink-3);font-size:22px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{font-size:13px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--ink-2)}
+.keys{display:grid;gap:10px;margin-top:14px}
+@media (min-width:600px){.keys{grid-template-columns:repeat(3,1fr)}}
+.key{border-left:3px solid var(--kc,var(--ink));padding:2px 0 2px 10px}
+.key b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3)}
+.key span{font-weight:700;font-size:15px}
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 16px;margin-top:14px;box-shadow:var(--shadow)}
+.sec h3{margin:0 0 4px;font-size:19px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.sec h3 .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--surface-2);font-size:15px}
+.sec .lead{color:var(--ink-2);margin:0 0 12px;font-size:14.5px}
+.sec p{margin:8px 0}
+.sec ul{margin:8px 0;padding-left:0;list-style:none}
+.sec li{position:relative;padding-left:20px;margin:7px 0}
+.sec li::before{content:"";position:absolute;left:4px;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--dot,var(--ink-3))}
+.sec.avoid li::before{border-radius:1px;background:var(--rojo);transform:rotate(45deg)}
+.quote{background:var(--surface-2);border-radius:12px;padding:12px 14px;margin:12px 0;font-weight:600;position:relative}
+.quote small{display:block;font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:4px}
+.block{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+.block h4{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3)}
+.two{display:grid;gap:10px}
+@media (min-width:600px){.two{grid-template-columns:1fr 1fr}}
+.mini{background:var(--surface-2);border-radius:12px;padding:12px}
+.mini b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin-bottom:2px}
+.note{font-size:13.5px;color:var(--ink-2);background:var(--surface-2);border-radius:12px;padding:12px 14px;margin-top:14px}
+.actions{display:grid;gap:8px;margin-top:16px}
+@media (min-width:600px){.actions{grid-template-columns:1fr 1fr 1fr}}
+footer{margin-top:36px;color:var(--ink-3);font-size:12.5px;text-align:center}
+footer img{height:22px;filter:var(--logo-filter);opacity:.8;margin-bottom:6px}
+.toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));max-width:calc(100% - 32px);text-align:center;transform:translateX(-50%);background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+.toast.on{opacity:1}
+.banner{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.banner i{flex:none;width:10px;height:10px;border-radius:3px;background:var(--kc);margin-top:6px}
+.banner b{color:var(--ink)}
+.quick .row{display:grid;grid-template-columns:96px 1fr;gap:10px;border-top:1px solid var(--line);padding:12px 0}
+.quick .row:first-of-type{border-top:0}
+.quick .rt{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--rojo);padding-top:2px}
+.quick .rb .quote{margin:0 0 6px}
+.quick ul{margin:0}.quick li{margin:4px 0}
+.quick ul.x li::before{border-radius:1px;background:var(--rojo);transform:rotate(45deg)}
+@media (max-width:420px){.quick .row{grid-template-columns:1fr;gap:4px}}
+.ck{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line);cursor:pointer}
+.ck:first-of-type{border-top:0}
+.ck input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--azul);flex:none}
+.ck input:checked+span{color:var(--ink-3);text-decoration:line-through}
+ol.steps{margin:8px 0;padding-left:22px}ol.steps li{margin:6px 0;padding-left:4px}
+ol.steps li::marker{font-weight:800;color:var(--azul)}
+.tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;table-layout:fixed}
+.tbl th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);border-bottom:1.5px solid var(--ink-3);padding:6px}
+.tbl td{border-bottom:1px solid var(--line);padding:12px 6px}
+.goal .big{font-size:20px;font-weight:800;line-height:1.3;margin:6px 0 0;border-left:4px solid var(--naranja);padding-left:12px}
+.move{border-top:1px solid var(--line);padding:12px 0}.move:first-of-type{border-top:0}
+.move>b{display:block;font-size:15px}
+.more{margin-top:14px}
+.sec h3 .ic{font-weight:800}
+.hidden{display:none}
+@media print{.step,.cta,.actions,.more,header.top .stripe,.hero{display:none}.sec,.rhead{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <img src="data:image/png;base64,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" alt="BrainKo">
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="./" hreflang="es" lang="es" style="font-size:13px;font-weight:700;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 10px">ES</a>
+      <div class="stripe" aria-hidden="true"><span style="background:var(--verde)"></span><span style="background:var(--amarillo)"></span><span style="background:var(--naranja)"></span><span style="background:var(--azul)"></span><span style="background:var(--rojo)"></span><span style="background:var(--morado)"></span></div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Conversation Compass</h1>
+    <p>Prepare your next meeting in 1 minute. Choose your Management Drives color, the other person's color, your generations and the type of session, and get a guide to open, lead and close the conversation.</p>
+  </section>
+
+  <div class="step" id="s1">
+    <div class="step-h"><span class="num">1</span><div><h2>Your dominant color</h2><small>Your first color (lead color) in your MD profile</small></div></div>
+    <div class="grid g3" data-group="me"></div>
+  </div>
+
+  <div class="step" id="s2">
+    <div class="step-h"><span class="num">2</span><div><h2>The other person's color</h2><small>If you don't know their profile, choose the color you see most in their behavior</small></div></div>
+    <div class="grid g3" data-group="them"></div>
+  </div>
+
+  <div class="step" id="s3">
+    <div class="step-h"><span class="num">3</span><div><h2>Generations</h2><small>By year of birth</small></div></div>
+    <div class="pair">
+      <div><div class="sub">You</div><div class="grid g2" data-group="myGen"></div></div>
+      <div><div class="sub">The other person</div><div class="grid g2" data-group="theirGen"></div></div>
+    </div>
+  </div>
+
+  <div class="step" id="s4">
+    <div class="step-h"><span class="num">4</span><div><h2>What is your relationship?</h2><small>From your position</small></div></div>
+    <div class="grid g2" data-group="rel"></div>
+  </div>
+
+  <div class="step" id="s5">
+    <div class="step-h"><span class="num">5</span><div><h2>Type of session</h2><small>What is the conversation for?</small></div></div>
+    <div class="grid g2" data-group="ses"></div>
+  </div>
+
+  <div class="cta">
+    <button class="btn off" id="go" type="button">See recommendation</button>
+    <div class="hint" id="hint">Complete the 5 steps</div>
+  </div>
+
+  <div id="result" class="hidden" aria-live="polite"></div>
+
+  <footer>
+    <img src="data:image/png;base64,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" alt="BrainKo"><br>
+    Based on the Management Drives methodology. A BrainKo support tool; it does not replace a full reading of an MD profile.<br>
+    Every person is unique: use this guide as a starting point and adjust it to what you observe.
+  </footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA ============ */
+const COLORS = {
+  amarillo:{n:"Yellow",estilo:"Visionary",hex:"var(--amarillo)",
+    quiere:"to understand, analyze and explore in depth",
+    filtro:"Does it make sense?",
+    motor:"Freedom to think, ideas and understanding",
+    efectivo:"develops ideas, is curious and creates innovation",
+    procesa:"With the head (reason), looking to the future and in abstract terms: ideas, vision, theory.",
+    abrir:"Start with the why and the big picture. Share the context and the underlying question before the details, and give them room to think and weigh in. What hooks this person is understanding the purpose of the conversation; if it feels shallow or inconsistent, they disconnect and become critical.",
+    frase:"Before we get into the details, I'd like to share the big picture and hear your take: how do you see it?",
+    conducir:["Bring data, logic and alternatives. Expect critical questions: that is how they engage, not an attack.","Leave pauses. They need to think before answering; if you can, send the material in advance.","Connect the topic to the vision and its future impact.","Agree on the what and give them freedom on the how."],
+    evitar:["Rules or decisions you can't explain (their main demotivator).","Shallow answers or «because that's how it's done».","Pushing them to decide before they have understood.","Micromanagement."],
+    cerrar:"Summarize the core idea and make clear what is still to be explored. Give freedom in the execution, but agree on a review point, for example weekly.",
+    fraseCierre:"What do you still need to understand to feel comfortable with this? Let's check in on Thursday.",
+    trigger:"Too many ideas in their head, or not seeing the point of what is being asked.",
+    exagerado:"Overcomplicates things and wants everything to add up.",
+    negativo:"Becomes critical, cynical or dogmatic.",
+    necesita:"To understand and be understood, to see the full picture and to be recognized as intelligent.",
+    cumplido:"Acknowledge the quality of their analysis or the originality of an idea.",
+    reporta:["Give freedom and inspiration.","Create a vision and stick to it.","Make sure the big picture is right.","Bring things back to their essence.","Give freedom, but review weekly."],
+    jefe:"As a Visionary, they look at the long term and decide rationally and, in the end, alone. Bring them well-thought-out ideas linked to the vision. They pay little attention to day-to-day matters, so summarize the operational side and don't bury them in detail.",
+    colega:"Earn their intellectual respect: ask for their expert opinion and give them credit for their ideas.",
+    cliente:"Values a smart, innovative solution. Show the concept and the reasoning, and answer their questions thoroughly."},
+  verde:{n:"Green",estilo:"People Manager",hex:"var(--verde)",
+    quiere:"harmony and good mutual relationships",
+    filtro:"Is it social? How does it affect people?",
+    motor:"Involvement, belonging and fair treatment",
+    efectivo:"involves others, communicates and creates connection",
+    procesa:"With the heart (emotion) and in terms of ideals: people, equality, mutual commitment.",
+    abrir:"Start with the person, not the task. Do a genuine check-in: how they are and how their team is doing. Frame the session as something you will build together. For this person, feeling heard and included is the condition for opening up; coldness or rushing is read as lack of interest.",
+    frase:"Before we get into it, how are you, and how is the team? I'd like us to build this together.",
+    conducir:["Listen actively and let them finish their thoughts.","Ask for their opinion and that of the people involved.","Explain the impact of each decision on people, not just on the numbers.","Explicitly look for a win-win."],
+    evitar:["Arrogance or speaking from «I know better».","Encouraging competition between people (their main demotivator).","Talking only about facts and figures, coldly.","Imposing without consulting or confronting them in front of others."],
+    cerrar:"Make sure the agreement is shared and that the person felt heard. Decide together how you will communicate it to others.",
+    fraseCierre:"Does this feel fair to everyone? Who else should we involve?",
+    trigger:"People don't listen to them, or they perceive an injustice.",
+    exagerado:"Gets involved in everything and keeps seeking consensus.",
+    negativo:"Complains, spreads rumors and criticizes others.",
+    necesita:"To be liked, to belong and to be appreciated as a human being.",
+    cumplido:"Acknowledge their contribution to the team and how they look after relationships.",
+    reporta:["First understand the person.","Be empathetic.","Give space and listen actively.","Use everyone's strengths.","Align the work with shared goals."],
+    jefe:"As a People Manager, they decide after consulting. Show how your proposal involves and benefits the team, and give them time to consult. They find it hard to disappoint others, so help them see how relationships will be looked after.",
+    colega:"Build the relationship before you ask. Frame the collaboration as a win-win.",
+    cliente:"Buys from whoever earns their personal trust. Look after the relationship, listen and show the impact on their people."},
+  naranja:{n:"Orange",estilo:"Entrepreneur",hex:"var(--naranja)",
+    quiere:"to show progress, results and achievements",
+    filtro:"Is it useful?",
+    motor:"Challenges, success and recognition",
+    efectivo:"seeks results and challenges, and drives progress",
+    procesa:"Practically: opportunities, possibilities, applications and solutions. Looks to the future.",
+    abrir:"Go straight to the goal and the opportunity. In your first sentence, say what will be achieved and what's in it for them. What is useful and adds to a result is what gets their attention; long introductions or slow processes make them lose interest.",
+    frase:"I have an opportunity to achieve X and I think you're key to making it happen.",
+    conducir:["Set ambitious but realistic challenges.","Talk about results, progress and metrics.","Recognize their achievements and take them seriously.","Be flexible on the path, as long as the goal is clear."],
+    evitar:["Downplaying their goals (their main demotivator).","Endless consultation or slow processes without good reason.","Criticizing without offering an alternative or, worse, in front of others.","Taking away visibility or credit for their achievements."],
+    cerrar:"Close with a clear, measurable goal and an immediate next step. Recognize what they have already achieved.",
+    fraseCierre:"So the goal is X by day Y. What do you need to make it happen?",
+    trigger:"Feeling that the goal is not being reached.",
+    exagerado:"Changes their mind depending on what suits them; becomes opportunistic.",
+    negativo:"Protects themselves and blames others for mistakes.",
+    necesita:"To be taken seriously, to be the best, to succeed and to be appreciated.",
+    cumplido:"Acknowledge their results concretely and, if possible, visibly.",
+    reporta:["Focus on clear results.","Set challenging but realistic goals.","Think big and aim high.","Also secure short-term wins.","Take them seriously."],
+    jefe:"As an Entrepreneur, only results count for them. Bring results and a value proposition, and help them shine. Receiving criticism and sharing success can be hard for them: frame any observation as a way to improve the result.",
+    colega:"Show the mutual benefit and how you both come out ahead and look good.",
+    cliente:"Buys results and competitive advantage: return, success stories and speed."},
+  azul:{n:"Blue",estilo:"Organizer",hex:"var(--azul)",
+    quiere:"certainty and clarity",
+    filtro:"How does it fit the current process?",
+    motor:"Order, clear agreements and follow-through",
+    efectivo:"organizes, structures and brings stability",
+    procesa:"With the head (reason) and concretely: facts, figures, processes and implementation.",
+    abrir:"Be on time and bring an agenda. From the start, explain the goal, the time available and the structure of the session. For this person, clarity and predictability build trust; improvising or vagueness creates tension from the first minute.",
+    frase:"We have 30 minutes. I suggest three points: A, B and C, and at the end we agree on owners and dates.",
+    conducir:["Follow the agenda and respect the time.","Use concrete data and explain the process.","Clarify responsibilities, tasks and roles.","Honor previous agreements and recognize their effort."],
+    evitar:["Being late (their main demotivator).","Improvising or changing the rules without explaining why.","Vagueness: «we'll see», «more or less».","Promising something and not delivering."],
+    cerrar:"Close with written agreements: what, who and by when, ideally in SMART format.",
+    fraseCierre:"I'll send you the agreements in writing: who does what and by when.",
+    trigger:"There is no clarity about what is being done.",
+    exagerado:"Sets rules for everything and wants control.",
+    negativo:"Becomes bureaucratic and hides behind tasks and rules.",
+    necesita:"To have things well organized and under control, to complete their tasks and to feel secure.",
+    cumplido:"Acknowledge their reliability and work well finished.",
+    reporta:["Be transparent and provide frameworks.","Set the example.","Be mindful of time.","Stick to the plan.","Be reliable."],
+    jefe:"As an Organizer, they ask for loyalty and decide based on clear procedures; they are reliable and predictable. Bring a plan, figures and the status of delivery, and respect the established channels and agreements.",
+    colega:"Respect their processes and their timing, and formalize what you agree.",
+    cliente:"Buys certainty: a clear proposal, guarantees, process, deadlines and delivery."},
+  rojo:{n:"Red",estilo:"Authority",hex:"var(--rojo)",
+    quiere:"boldness, pace and strength",
+    filtro:"Where do I stand?",
+    motor:"Control, speed and respect",
+    efectivo:"raises the pace, decides and creates focus",
+    procesa:"With intuition and concretely, in the here and now: action and execution.",
+    abrir:"Get to the point from the first sentence. With respect, clarity and brevity, say what needs to be decided today. This person quickly judges whether you are wasting their time and where they stand in the conversation; beating around the bush or hesitating costs you credibility immediately.",
+    frase:"I'll be direct: I need us to decide on X today. These are the two options.",
+    conducir:["Use few words; present options and decisions.","Give them control and room to decide.","Be firm and direct; show confidence.","Keep the focus on what matters and what is urgent."],
+    evitar:["Showing a weak or hesitant attitude (their main demotivator).","Beating around the bush, too much detail or theory.","Challenging or exposing them in public.","Taking away their autonomy or territory."],
+    cerrar:"Close with a clear decision: what will and won't be done, and what the immediate next action is.",
+    fraseCierre:"Decided: we do X. We start today with Y.",
+    trigger:"Nothing is happening, or they feel powerless.",
+    exagerado:"Becomes pushy and forceful: everything has to happen NOW.",
+    negativo:"Fight or flight; calculates whether the other person is stronger.",
+    necesita:"To decide for themselves, to have influence and impact, and to feel strong.",
+    cumplido:"Acknowledge their decision and their courage, directly and briefly.",
+    reporta:["Focus on efficient decisions.","Be firm and never give up.","Create a sense of urgency.","Stay in action.","Keep the focus."],
+    jefe:"As an Authority, they keep a power distance and can be decisive but unpredictable. Be brief, show respect and firmness, and bring options, not problems.",
+    colega:"Be direct and reliable. Don't compete for control: make each person's territory clear.",
+    cliente:"Buys control and speed: concrete options, no beating around the bush, and the decision is theirs."},
+  morado:{n:"Purple",estilo:"Patriarch",hex:"var(--morado)",
+    quiere:"bonds, belonging and security",
+    filtro:"Does it feel safe?",
+    motor:"Trust, belonging and continuity",
+    efectivo:"creates bonds and security, and builds trust",
+    procesa:"With the heart and concretely, from experience: roots, belief and belonging.",
+    abrir:"Create a safe and trusting atmosphere. Be prudent and understated; don't get too close too fast. Acknowledge the history, what has been built and the team's rituals. For this person, safety and trust come before content; if they feel threatened, they close off.",
+    frase:"What you have built here has real value; I want to protect it while we look at what comes next.",
+    conducir:["Respect traditions and what already exists; build on it.","Be modest and authentic.","Assure discretion: some things stay «between us».","Move at a pace that lets them feel safe."],
+    evitar:["Ignoring their achievements and traditions (their main demotivator).","Abrupt changes without a sense of continuity.","Being controversial or exposing them in front of others.","Forcing closeness or trust."],
+    cerrar:"Reaffirm the bond and the shared purpose, and agree on a fixed time for follow-up.",
+    fraseCierre:"You can count on me for this. Let's meet at our usual time to follow up.",
+    trigger:"Feeling insecure, or seeing what matters («what is sacred») pushed aside.",
+    exagerado:"Protects their inner circle and becomes conservative.",
+    negativo:"Becomes suspicious and distrustful.",
+    necesita:"To be able to be themselves, to feel safe, to be of service and to be trusted.",
+    cumplido:"Acknowledge their loyalty and their commitment to the team.",
+    reporta:["Respect the past.","Be authentic and genuine.","Be modest.","Don't be controversial.","Create a safe and trusting environment."],
+    jefe:"As a Patriarch, they feel responsible for preserving past achievements and the honor of the organization, and they generate strong commitment. Show loyalty, respect the history and never confront them in front of others.",
+    colega:"Respect their circle and their way of doing things. Earn their trust step by step.",
+    cliente:"Buys security and belonging: trusted references, continuity and a long-term relationship."}
+};
+const ORDER = ["amarillo","verde","naranja","azul","rojo","morado"];
+
+const SELF = {
+  amarillo:{tiende:"explain a lot, analyze and question",riesgo:"overcomplicate the conversation or become critical",reto:"Simplify and listen"},
+  verde:{tiende:"consult, protect harmony and avoid conflict",riesgo:"seek consensus endlessly and not say the hard thing",reto:"Say the hard thing clearly"},
+  naranja:{tiende:"go straight to results and «sell» the idea",riesgo:"listen too little and become opportunistic",reto:"Listen before you sell"},
+  azul:{tiende:"structure, detail and stick to the process",riesgo:"become rigid or hide behind rules",reto:"Be flexible with the process"},
+  rojo:{tiende:"move fast, be direct and decide",riesgo:"impose and show impatience",reto:"Slow down and listen"},
+  morado:{tiende:"look after people, be prudent and protect what exists",riesgo:"become distrustful and close off",reto:"Open up and extend trust"}
+};
+
+const REJ = {
+  amarillo:{amarillo:"over-theorizing or overcomplicating things",verde:"groupthink that stifles free thinking and original ideas",naranja:"pragmatism that only wants to «score» and stays on the surface",azul:"rules and structure that limit freedom of thought",rojo:"what is unreflective, forceful and impulsive",morado:"accepting things without a critical eye"},
+  verde:{amarillo:"the distant attitude of someone who stands outside the group",verde:"wanting consensus all the time",naranja:"arrogance and wanting to stand out from others",azul:"the impersonal approach that puts rules above people",rojo:"the impulsive, impatient and blunt style that breaks harmony",morado:"a closed mind, focused on a small group"},
+  naranja:{amarillo:"thinking things over and over, which slows down practical action",verde:"consulting so much that goals are delayed",naranja:"becoming too soft or opportunistic",azul:"rules that limit the playing field",rojo:"conflicts over short-term gains, which are impractical",morado:"what seems to have no goal and lead nowhere"},
+  azul:{amarillo:"the chaotic style that ignores details and reality",verde:"disorganization; seeming to prefer talking over working",naranja:"unpredictability; breaking rules to reach goals",azul:"excessive bureaucracy and overly repetitive work",rojo:"irresponsible, unpredictable behavior that ignores the rules",morado:"an order based on unwritten rules, which seems irrational to you"},
+  rojo:{amarillo:"the slow, analytical style that takes too long",verde:"too much understanding and naivety",naranja:"vanity and calculation, depending on others' opinions",azul:"being overly scrupulous about rules",rojo:"conflict and abuse of power",morado:"modesty and self-sacrifice, which may look like weakness to you"},
+  morado:{amarillo:"denying the symbolic and what has deeper meaning",verde:"not understanding mature relationships or everyone's place",naranja:"the constant urge to change things for personal gain",azul:"the cold, mechanical style that ignores the person",rojo:"roughness that doesn't respect what matters to the group",morado:"what is too closed or conservative"}
+};
+const TENSION = {rojo:"azul",azul:"rojo",naranja:"verde",verde:"naranja",amarillo:"morado",morado:"amarillo"};
+const TENSION_TXT = {
+  "rojo-azul":"speed and impulse versus order and rules",
+  "naranja-verde":"competition and individual results versus cooperation and harmony",
+  "amarillo-morado":"questioning and understanding versus believing and preserving"
+};
+const ABS = {amarillo:0,verde:0,naranja:1,azul:2,rojo:2,morado:2};
+
+const GENS = [
+  {id:"boomer",n:"Baby Boomers",r:"1946 – 1964",
+    valora:"experience, hard work, loyalty, hierarchy and personal relationships",
+    canal:"face to face or by phone, with some formality at first",
+    feedback:"structured, formal and in private",
+    reconoce:"for their track record and experience",
+    abrir:"Be somewhat formal at first (use titles or last names until invited otherwise), acknowledge their experience and show you respect their time.",
+    evitar:["Being overly casual or using jargon before there is trust.","Assuming they aren't comfortable with technology or that they resist change.","Phrases like «that's not how it's done anymore»."],
+    seguimiento:"Confirm the agreements formally in writing and follow up in person or by phone."},
+  {id:"x",n:"Generation X",r:"1965 – 1979",
+    valora:"autonomy, efficiency, pragmatism and work-life balance",
+    canal:"a short, direct conversation or email",
+    feedback:"direct, to the point and when needed",
+    reconoce:"with autonomy and trust more than applause",
+    abrir:"Be direct, respect their time and avoid excessive formality or corporate enthusiasm.",
+    evitar:["Micromanagement.","Unnecessary or overly long meetings.","Empty corporate speak."],
+    seguimiento:"Agree on the essentials and give them space; follow-up can be by email."},
+  {id:"y",n:"Millennials (Y)",r:"1980 – 1994",
+    valora:"purpose, development, collaboration, flexibility and technology",
+    canal:"messaging, video calls or collaborative tools",
+    feedback:"frequent, conversational and development-focused",
+    reconoce:"with growth opportunities and timely recognition",
+    abrir:"Connect the topic to purpose and impact, use a friendly tone and show openness to their point of view.",
+    evitar:["The «you have to pay your dues first» mindset.","Rigid hierarchy without explanation.","Giving feedback only once a year."],
+    seguimiento:"Close with the next step and how it supports their development; follow-up can be quick, by chat."},
+  {id:"z",n:"Generation Z",r:"1995 – 2012",
+    valora:"authenticity, learning, freedom, inclusion, stability and doing enjoyable things together",
+    canal:"digital, short and visual, though they value an authentic face-to-face conversation",
+    feedback:"immediate, transparent and respectful",
+    reconoce:"with learning, autonomy and visible impact",
+    abrir:"Be authentic and transparent, explain the why and get to the point; make room for questions from the start.",
+    evitar:["Condescension («young people these days…»).","Long speeches.","Inconsistency between what is said and what is done."],
+    seguimiento:"Leave clear steps and an open channel for questions; follow-up is quick and frequent."}
+];
+
+const RELS = {
+  reporta:{n:"Reports to me",s:"Works for me",
+    base:"You have the formal authority and your word carries more weight. The risk is that the other person tells you what they think you want to hear. Ask before giving your opinion and let them speak first.",
+    tit:"How to lead someone who is "},
+  jefe:{n:"I report to them",s:"My boss",
+    base:"They have the final say and little time. Your job is to make the decision easy: adapt your message to their filter, come prepared and protect their time.",
+    tit:"How a boss leads when they are "},
+  colega:{n:"Colleague or peer",s:"Same level",
+    base:"Without hierarchy, your influence depends on trust and mutual benefit. Ask, don't order.",
+    tit:"With a colleague who is "},
+  cliente:{n:"Client",s:"Internal or external",
+    base:"Their decision depends on whether they perceive value and trust. Listen to their needs first and speak their language, not yours.",
+    tit:"With a client who is "}
+};
+
+const SES = {
+  seguimiento:{n:"1:1 follow-up",s:"Review progress",
+    abrir:"Restate the purpose of the session and review together what you agreed last time.",
+    cerrar:"Agree on priorities until the next session.",
+    c:{amarillo:"Ask what they have discovered and what intrigues them; review the approach, not just the progress.",verde:"Start with how they feel and how the team is doing; then the progress.",naranja:"Start with achievements and progress against the goal; then the obstacles.",azul:"Go through the plan point by point, against what was agreed.",rojo:"Three topics at most: what was decided, what is blocking, and what's next.",morado:"Keep the same day, time and format: regularity gives them security."}},
+  retro:{n:"Feedback",s:"Give feedback",
+    abrir:"Ask permission and frame the conversation: «I'd like to share something I think will help you…». Describe concrete facts, their impact and the behavior you expect.",
+    cerrar:"Ask for their view, agree on a concrete behavior and when you will review it.",
+    c:{amarillo:"Appeal to logic: show the reasoning and let them reach their own conclusions.",verde:"Separate the person from the behavior and reassure them the relationship is fine. Always in private.",naranja:"Frame it as the way to a better result. Recognize what they have achieved first, and never in public.",azul:"Be concrete: what happened, when, and what standard is expected. Propose an improvement plan.",rojo:"Direct, brief and respectful. Don't over-soften or lecture; let them decide how to correct course.",morado:"Look after the bond and discretion, acknowledge their loyalty and talk about «what we value here»."}},
+  negociacion:{n:"Negotiation",s:"Reach an agreement",
+    abrir:"Clarify the purpose: reaching an agreement that works for both. Explore their interests before proposing.",
+    cerrar:"Summarize the agreement, the conditions and the next steps, and confirm it in writing.",
+    c:{amarillo:"Negotiate with well-thought-out arguments and alternatives; accept their questioning and give them time.",verde:"Look for an explicit win-win: fair treatment matters as much as the result.",naranja:"Talk about value and benefit, let them «win» something visible and move quickly.",azul:"Bring a structured proposal, with clear conditions in writing. Don't change the rules halfway.",rojo:"Clear positions, few options and firmness. Respect their need for control, without showing weakness.",morado:"Trust first, deal second. Respect the relationship and previous commitments; avoid pressure."}},
+  propuesta:{n:"Present a proposal",s:"Idea or approval",
+    abrir:"In the first minute, say what you propose and what you need from the other person.",
+    cerrar:"Ask for a decision or for the concrete next step to get one.",
+    c:{amarillo:"Present the concept, the logic and alternatives; anticipate their critical questions.",verde:"Show who benefits and who is already involved.",naranja:"Open with the result and the gain; use a success story and make a quick decision easy.",azul:"Bring the plan, costs, risks and timeline; explain how it fits the current process.",rojo:"One page: what, why now and what you need them to decide.",morado:"Show how it protects and continues what already exists; mention trusted references."}},
+  delegar:{n:"Delegate a task",s:"Assign responsibility",
+    abrir:"Explain what, why and by when before talking about how.",
+    cerrar:"Ask them to repeat the agreement in their own words and set the review point.",
+    c:{amarillo:"Explain the goal and the why; give freedom on the how, with a weekly review.",verde:"Show how it contributes to the team, offer support and involve them in defining the how.",naranja:"Frame it as a challenge with an ambitious goal and visibility for the achievement.",azul:"Give clear instructions: scope, responsibilities, deadlines and quality criteria.",rojo:"Give them real authority over the task: define the result and the limits, then step aside.",morado:"Make them feel your trust («I'm giving this to you because I trust you») and respect their way of doing it."}},
+  dificil:{n:"Difficult conversation",s:"Conflict or bad news",
+    abrir:"Name the topic respectfully and without too much beating around the bush, and state your positive intention.",
+    cerrar:"Agree on a concrete step and a time to review how it is going. Thank them for the conversation.",
+    c:{amarillo:"Facts and logic, without dramatizing; let them analyze and propose.",verde:"Watch your tone, acknowledge their feelings and stress that you are looking for a solution together.",naranja:"Focus on the shared goal and what is lost if it isn't resolved, without exposing them.",azul:"Refer to agreements and concrete facts, and propose a clear process to resolve it.",rojo:"Be direct and respectful: don't be intimidated and don't escalate. Lead to a decision.",morado:"In private and in a safe setting. Go slowly and reaffirm the bond before and after."}},
+  primera:{n:"First meeting",s:"Build the relationship",
+    abrir:"Introduce yourself, explain the purpose of the meeting and ask before you present.",
+    cerrar:"Propose a concrete next contact.",
+    c:{amarillo:"Talk about interesting ideas, trends and challenges; show genuine curiosity.",verde:"Take time to get to know each other as people; share something personal.",naranja:"Ask about their goals and achievements, and show how you can help them win.",azul:"Be on time, come prepared and deliver on what you promise from day one.",rojo:"Brief and substantial; show confidence and don't waste their time.",morado:"Show respect for their history and their team; don't force closeness."}}
+};
+
+/* ============ STATE & UI ============ */
+const state = {me:null,them:null,myGen:null,theirGen:null,rel:null,ses:null};
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function btn(group,val,t,s,sw){
+  const b=document.createElement("button");b.type="button";b.className="opt";b.dataset.group=group;b.dataset.val=val;b.setAttribute("aria-pressed","false");
+  b.innerHTML=(sw?`<span class="sw" style="background:${sw}"></span>`:"")+`<span><span class="t">${esc(t)}</span>${s?`<span class="s">${esc(s)}</span>`:""}</span>`+(sw?"":`<span class="chk"></span>`);
+  b.addEventListener("click",()=>select(group,val));return b;
+}
+function build(){
+  ["me","them"].forEach(g=>{const c=document.querySelector(`[data-group="${g}"]`);ORDER.forEach(k=>c.appendChild(btn(g,k,COLORS[k].n,COLORS[k].estilo,COLORS[k].hex)))});
+  ["myGen","theirGen"].forEach(g=>{const c=document.querySelector(`div[data-group="${g}"]`);GENS.forEach((x,i)=>c.appendChild(btn(g,String(i),x.n,x.r)))});
+  const r=document.querySelector('div[data-group="rel"]');Object.entries(RELS).forEach(([k,v])=>r.appendChild(btn("rel",k,v.n,v.s)));
+  const s=document.querySelector('div[data-group="ses"]');Object.entries(SES).forEach(([k,v])=>s.appendChild(btn("ses",k,v.n,v.s)));
+}
+function select(group,val){
+  state[group]=val;
+  document.querySelectorAll(`button.opt[data-group="${group}"]`).forEach(b=>b.setAttribute("aria-pressed",b.dataset.val===val?"true":"false"));
+  const noDel = state.rel==="jefe"||state.rel==="cliente";
+  const del=document.querySelector('button.opt[data-group="ses"][data-val="delegar"]');
+  del.disabled=noDel; if(noDel&&state.ses==="delegar"){state.ses=null;del.setAttribute("aria-pressed","false")}
+  refresh();
+  if(!$("#result").classList.contains("hidden")&&complete()) render(false);
+}
+function complete(){return Object.values(state).every(v=>v!==null)}
+function firstMissing(){
+  if(!state.me) return {id:"s1",txt:"your color"};
+  if(!state.them) return {id:"s2",txt:"the other person's color"};
+  if(state.myGen===null) return {id:"s3",txt:"your generation",sub:0};
+  if(state.theirGen===null) return {id:"s3",txt:"the other person's generation",sub:1};
+  if(!state.rel) return {id:"s4",txt:"the relationship"};
+  if(!state.ses) return {id:"s5",txt:"the type of session"};
+  return null;
+}
+function goClick(){
+  const f=firstMissing();
+  if(!f){render(true);return;}
+  const el=document.getElementById(f.id);
+  document.querySelectorAll(".need").forEach(x=>x.classList.remove("need"));
+  el.classList.add("need");
+  if(f.sub!==undefined) el.querySelectorAll(".sub")[f.sub].classList.add("need");
+  el.scrollIntoView({behavior:"smooth",block:"center"});
+  toast("Still missing: "+f.txt);
+  setTimeout(()=>{el.classList.remove("need");el.querySelectorAll(".sub").forEach(s=>s.classList.remove("need"))},2500);
+}
+function refresh(){
+  $("#s1").classList.toggle("done",!!state.me);$("#s2").classList.toggle("done",!!state.them);
+  $("#s3").classList.toggle("done",state.myGen!==null&&state.theirGen!==null);
+  $("#s4").classList.toggle("done",!!state.rel);$("#s5").classList.toggle("done",!!state.ses);
+  const missing=[!state.me,!state.them,state.myGen===null||state.theirGen===null,!state.rel,!state.ses].filter(Boolean).length;
+  $("#go").classList.toggle("off",missing>0);
+  const f=firstMissing();
+  $("#hint").textContent=f?`Still missing: ${f.txt}`:"Ready: tap to see your guide";
+}
+
+/* ============ RECOMMENDATION ============ */
+function genBridge(my,their,rel){
+  const d=their-my, out=[];
+  if(d===0) out.push("You share a generation: you have references and codes in common. Even so, color matters more than generation; don't assume you think alike.");
+  else if(d>0){
+    out.push("The other person is from a younger generation than you. Avoid «back in my day», explain the why behind things, make room for their perspective and learn from it.");
+    if(rel==="reporta") out.push("As their leader, act more as a mentor than a parental figure: give frequent feedback and let them propose.");
+    if(rel==="jefe") out.push("Your boss is younger than you: your experience is an asset if you offer it as support, not as a lesson. Adapt to their pace and channels.");
+  } else {
+    out.push("The other person is from an older generation than you. Acknowledge their experience and track record, be somewhat formal at first and don't assume resistance to change: propose, don't impose.");
+    if(rel==="reporta") out.push("You are leading someone with more experience: ask for their advice, recognize what they know and be clear on goals without micromanaging.");
+    if(rel==="jefe") out.push("Your boss is from an older generation: come prepared, respect formal channels and show that you value their experience.");
+  }
+  if(Math.abs(d)>=2) out.push("The generational gap is wide. It's worth setting expectations about channel, formality and response times at the start.");
+  return out;
+}
+
+const GEN_CORTO = ["Formality at first and acknowledge their experience.","Direct, efficient and no micromanagement.","Connect with purpose and give frequent feedback.","Authentic, brief and explaining the why."];
+const REL_CORTO = {reporta:"Ask before giving your opinion.",jefe:"Make the decision easy and protect their time.",colega:"Ask, don't order; look for mutual benefit.",cliente:"Listen to their need before proposing."};
+const SES_META = {seguimiento:"Leave with clear priorities until the next session.",retro:"An agreed behavior change and a date to review it.",negociacion:"An agreement confirmed in writing.",propuesta:"A decision or the concrete next step to get one.",delegar:"An accepted responsibility, with a result and a date.",dificil:"A concrete step to resolve it and a review date.",primera:"A next meeting on the calendar."};
+function genShort(my,their){const d=their-my;
+  if(d===0) return "Same generation: don't assume they think like you.";
+  return d>0?"Younger: explain the why, no «back in my day».":"Older: acknowledge their track record; propose, don't impose.";}
+
+const BANNER = {
+  rojo:["Red version","Short and to the point, the way the other person likes it."],
+  azul:["Blue version","Step by step, with a checklist and agreements."],
+  naranja:["Orange version","Focused on the goal and your key moves."],
+  amarillo:["Yellow version","Complete, with the why behind each recommendation."],
+  verde:["Green version","Focused on people and the relationship."],
+  morado:["Purple version","Prudent, step by step and looking after the bond."]
+};
+const LABELS = {
+  base:{antes:"Before you start",antesLead:"Understand how the other person receives what you say.",abrir:"How to open the session",abrirLead:"The first minutes set the tone.",conducir:"How to lead the conversation",conducirLead:"As the conversation unfolds.",evitar:"What to avoid",evitarLead:"What can shut the conversation down.",cerrar:"How to close",cerrarLead:"So the session turns into action.",presion:"If you notice pressure",presionLead:"Signs the conversation is getting tense."},
+  amarillo:{antes:"The logic of this conversation",antesLead:"The why first: how the other person thinks and why each recommendation works.",abrir:"How to open (and why)",abrirLead:"What hooks them is understanding the purpose.",conducir:"How to lead the reasoning",conducirLead:"Leave room to think and question.",evitar:"What to avoid",evitarLead:"What makes them lose interest or trust in your logic.",cerrar:"How to close",cerrarLead:"A clear core idea and freedom on the how.",presion:"If you notice pressure",presionLead:"When ideas pile up or something doesn't add up."},
+  verde:{antes:"Before you start: put yourself in their shoes",antesLead:"For this person the relationship comes first. Think about how you want them to feel when they leave.",abrir:"How to connect at the start",abrirLead:"The person first, then the topic.",conducir:"How to guide the conversation",conducirLead:"Listen, include and build together.",evitar:"What can hurt the relationship",evitarLead:"Watch your tone as much as your content.",cerrar:"How to close together",cerrarLead:"An agreement where everyone feels heard.",presion:"If you notice they feel uncomfortable",presionLead:"Signs that something doesn't feel fair."},
+  morado:{antes:"Prepare a safe space",antesLead:"Trust is built slowly: respect their history and their pace.",abrir:"Open with respect",abrirLead:"Safety first, then content.",conducir:"Move step by step",conducirLead:"Build on what already exists.",evitar:"What not to touch",evitarLead:"What can break trust.",cerrar:"Close by reaffirming the bond",cerrarLead:"So they leave knowing they can count on you.",presion:"If you notice distrust",presionLead:"Signs that they are closing off."}
+};
+
+function ctx(){
+  const me=COLORS[state.me], th=COLORS[state.them], mg=GENS[+state.myGen], tg=GENS[+state.theirGen], rel=RELS[state.rel], ses=SES[state.ses];
+  const same=state.me===state.them, tension=TENSION[state.me]===state.them;
+  const absMe=ABS[state.me], absTh=ABS[state.them];
+  let absTip="";
+  if(absMe<absTh) absTip="You tend to think in ideas and possibilities, and the other person is more concrete: bring the conversation down to facts, actions and examples.";
+  else if(absMe>absTh) absTip="You tend to be more concrete, and the other person thinks more in ideas and possibilities: start with the why and the meaning before getting into detail.";
+  let dyn;
+  if(same) dyn=`<p><b>You share the color ${th.n}.</b> You will understand each other quickly, but you may also amplify the same blind spot together. Under pressure, you could both show the same thing («${esc(th.exagerado)}»). Consciously invite the perspective you are missing.</p>`;
+  else if(tension){const o=["rojo","naranja","amarillo","azul","verde","morado"];const key=[state.me,state.them].sort((a,b)=>o.indexOf(a)-o.indexOf(b)).join("-");
+    dyn=`<p><b>${me.n} and ${th.n} are colors in natural tension</b> (${esc(TENSION_TXT[key]||"")}). That's not a bad thing, but it requires you to adapt consciously: what is obvious to you may be exactly what irritates the other person.</p>`;}
+  else dyn=`<p>Your colors are different, but not in direct tension. Even so, the other person filters what you say through a different question: <b>${esc(th.filtro)}</b></p>`;
+  const relExtra = state.rel==="reporta" ? `<ul style="--dot:${th.hex}">${th.reporta.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>` : `<p>${esc(th[state.rel])}</p>`;
+  return {me,th,mg,tg,rel,ses,same,tension,absTip,dyn,relExtra,self:SELF[state.me],rej:REJ[state.me][state.them],tip:ses.c[state.them],
+    bridge:genBridge(+state.myGen,+state.theirGen,state.rel),gshort:genShort(+state.myGen,+state.theirGen),gcorto:GEN_CORTO[+state.theirGen],
+    rcorto:REL_CORTO[state.rel],meta:SES_META[state.ses]};
+}
+const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join("");
+
+function headHTML(c){
+  const b=BANNER[state.them];
+  return `<div class="rhead">
+    <div class="duo">
+      <div class="who"><div class="lbl">You</div><div class="c"><i style="background:${c.me.hex}"></i>${c.me.n}</div><div class="g">${esc(c.me.estilo)} · ${esc(c.mg.n)}</div></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="who"><div class="lbl">The other person</div><div class="c"><i style="background:${c.th.hex}"></i>${c.th.n}</div><div class="g">${esc(c.th.estilo)} · ${esc(c.tg.n)}</div></div>
+    </div>
+    <div class="meta"><span class="tag">${esc(c.rel.n)}</span><span class="tag">${esc(c.ses.n)}</span></div>
+    <div class="keys">
+      <div class="key" style="--kc:${c.th.hex}"><b>Their filter</b><span>${esc(c.th.filtro)}</span></div>
+      <div class="key" style="--kc:${c.th.hex}"><b>What drives them</b><span>${esc(c.th.motor)}</span></div>
+      <div class="key" style="--kc:${c.me.hex}"><b>Your challenge</b><span>${esc(c.self.reto)}</span></div>
+    </div>
+  </div>
+  <div class="banner" style="--kc:${c.th.hex}"><i></i><div><b>${b[0]}:</b> ${b[1]} Reading it this way helps you step into their communication style.</div></div>`;
+}
+
+function fullHTML(c,L){
+  return `
+  <div class="sec">
+    <h3><span class="ic">🧭</span>${L.antes}</h3>
+    <p class="lead">${L.antesLead}</p>
+    <p>A <b>${c.th.n}</b> person wants <b>${esc(c.th.quiere)}</b>. They process information ${esc(c.th.procesa.charAt(0).toLowerCase()+c.th.procesa.slice(1))}</p>
+    ${c.dyn}
+    <div class="block"><h4>Watch your own filter</h4>
+      <p>From your <b>${c.me.n}</b> logic, what may irritate you most about a ${c.th.n} profile is <b>${esc(c.rej)}</b>. Remember it's your perception, not a fact: at their best, this person ${esc(c.th.efectivo)}.</p>
+      <p>You tend to ${esc(c.self.tiende)}. ${c.absTip?esc(c.absTip):""}</p>
+    </div>
+    <div class="block"><h4>Generational bridge</h4>
+      <p><b>${esc(c.tg.n)}</b> (${esc(c.tg.r)}) tend to value ${esc(c.tg.valora)}. They prefer to communicate ${esc(c.tg.canal)}, to receive feedback that is ${esc(c.tg.feedback)} and to be recognized ${esc(c.tg.reconoce)}.</p>
+      <ul>${li(c.bridge)}</ul>
+    </div>
+  </div>
+  <div class="sec">
+    <h3><span class="ic">▶</span>${L.abrir}</h3>
+    <p class="lead">${L.abrirLead}</p>
+    <p>${esc(c.th.abrir)}</p>
+    <div class="quote"><small>You could say</small>«${esc(c.th.frase)}»</div>
+    <div class="two">
+      <div class="mini"><b>For this session</b>${esc(c.ses.abrir)}</div>
+      <div class="mini"><b>Because of their generation</b>${esc(c.tg.abrir)}</div>
+    </div>
+    <div class="block"><h4>Because of the relationship: ${esc(c.rel.n.toLowerCase())}</h4><p>${esc(c.rel.base)}</p></div>
+  </div>
+  <div class="sec">
+    <h3><span class="ic">◆</span>${L.conducir}</h3>
+    <p class="lead">${L.conducirLead}</p>
+    <ul style="--dot:${c.th.hex}">${li(c.th.conducir)}</ul>
+    <div class="quote"><small>${esc(c.ses.n)} with a ${c.th.n} profile</small>${esc(c.tip)}</div>
+    <div class="block"><h4>${esc(c.rel.tit)}${c.th.n}</h4>${c.relExtra}</div>
+    <div class="block"><h4>A compliment that connects</h4><p>${esc(c.th.cumplido)}</p></div>
+  </div>
+  <div class="sec avoid">
+    <h3><span class="ic">✕</span>${L.evitar}</h3>
+    <p class="lead">${L.evitarLead}</p>
+    <ul>${li(c.th.evitar.concat(c.tg.evitar))}</ul>
+    <div class="block"><h4>And on your side</h4><p>If you feel under pressure, your ${c.me.n} color may lead you to ${esc(c.self.riesgo)}. If you notice it, pause and return to what the other person needs.</p></div>
+  </div>
+  <div class="sec">
+    <h3><span class="ic">■</span>${L.cerrar}</h3>
+    <p class="lead">${L.cerrarLead}</p>
+    <p>${esc(c.th.cerrar)}</p>
+    <div class="quote"><small>You could say</small>«${esc(c.th.fraseCierre)}»</div>
+    <div class="two">
+      <div class="mini"><b>For this session</b>${esc(c.ses.cerrar)}</div>
+      <div class="mini"><b>Follow-up</b>${esc(c.tg.seguimiento)}</div>
+    </div>
+  </div>
+  <div class="sec">
+    <h3><span class="ic">⚠</span>${L.presion}</h3>
+    <p class="lead">${L.presionLead}</p>
+    <div class="two">
+      <div class="mini"><b>What triggers it</b>${esc(c.th.trigger)}</div>
+      <div class="mini"><b>What you might see</b>${esc(c.th.exagerado)} ${esc(c.th.negativo)}</div>
+    </div>
+    <p style="margin-top:12px"><b>What they need at that moment:</b> ${esc(c.th.necesita)} Give them that and the conversation usually returns to its positive side.</p>
+  </div>`;
+}
+
+function rojoHTML(c){
+  const row=(t,body)=>`<div class="row"><div class="rt">${t}</div><div class="rb">${body}</div></div>`;
+  return `<div class="sec quick" style="--dot:var(--rojo)">
+    <h3><span class="ic">⚡</span>Your guide in 30 seconds</h3>
+    ${row("Open",`<div class="quote">«${esc(c.th.frase)}»</div><ul><li>Get to the point from the first sentence.</li><li>Two options at most.</li></ul>`)}
+    ${row("Lead",`<ul><li>Few words.</li><li>Let them decide.</li><li>Firm and confident.</li><li>${esc(c.tip)}</li></ul>`)}
+    ${row("Avoid",`<ul class="x"><li>Beating around the bush and too much detail.</li><li>Hesitating.</li><li>Exposing them or taking away control.</li></ul>`)}
+    ${row("Close",`<div class="quote">«${esc(c.th.fraseCierre)}»</div><ul><li>What's in, what's out and what happens today.</li></ul>`)}
+    ${row("Watch out",`<ul><li>${esc(c.rcorto)}</li><li>${esc(c.gcorto)}</li><li>${esc(c.gshort)}</li><li>Your challenge: ${esc(c.self.reto.toLowerCase())}.</li></ul>`)}
+    ${row("If it gets tense",`<ul><li>Give them control and a decision to make.</li></ul>`)}
+  </div>`;
+}
+
+function azulHTML(c){
+  const ck=a=>a.map(x=>`<label class="ck"><input type="checkbox"><span>${esc(x)}</span></label>`).join("");
+  return `
+  <div class="sec" style="--dot:var(--azul)">
+    <h3><span class="ic">1</span>Before the session</h3>
+    <p class="lead">Preparation checklist.</p>
+    ${ck(["Define the goal and an agenda of three points at most.","Confirm time, duration and place or link.","Bring data, figures and the agreements from the last session.","Have the agreements template ready (what, who, when).","Preferred channel for their generation: "+c.tg.canal+".","Because of the relationship: "+c.rcorto])}
+  </div>
+  <div class="sec" style="--dot:var(--azul)">
+    <h3><span class="ic">2</span>Opening · first 5 minutes</h3>
+    <ol class="steps"><li>Be on time.</li><li>Explain the goal, time and structure.</li><li>${esc(c.ses.abrir)}</li><li>${esc(c.tg.abrir)}</li></ol>
+    <div class="quote"><small>You could say</small>«${esc(c.th.frase)}»</div>
+  </div>
+  <div class="sec" style="--dot:var(--azul)">
+    <h3><span class="ic">3</span>Development</h3>
+    <ol class="steps">${li(c.th.conducir)}<li>${esc(c.tip)}</li></ol>
+    <div class="block"><h4>${esc(c.rel.tit)}${c.th.n}</h4>${c.relExtra}</div>
+  </div>
+  <div class="sec" style="--dot:var(--azul)">
+    <h3><span class="ic">4</span>Closing and agreements</h3>
+    <p>${esc(c.ses.cerrar)}</p>
+    <table class="tbl"><thead><tr><th>What</th><th>Who</th><th>When</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr></tbody></table>
+    <div class="quote"><small>You could say</small>«${esc(c.th.fraseCierre)}»</div>
+    <p><b>Follow-up:</b> ${esc(c.tg.seguimiento)}</p>
+  </div>
+  <div class="sec avoid">
+    <h3><span class="ic">✕</span>Rules: don't</h3>
+    <ul>${li(c.th.evitar.concat(c.tg.evitar))}</ul>
+  </div>
+  <div class="sec">
+    <h3><span class="ic">⚠</span>If clarity is missing</h3>
+    <div class="two">
+      <div class="mini"><b>Signal</b>${esc(c.th.exagerado)}</div>
+      <div class="mini"><b>What to do</b>Go back to the agenda and put what was agreed in writing.</div>
+    </div>
+  </div>`;
+}
+
+function naranjaHTML(c){
+  return `
+  <div class="sec goal" style="--dot:var(--naranja)">
+    <h3><span class="ic">🎯</span>The goal of this session</h3>
+    <p class="big">${esc(c.meta)}</p>
+  </div>
+  <div class="sec" style="--dot:var(--naranja)">
+    <h3><span class="ic">▶</span>Your play in 3 moves</h3>
+    <div class="move"><b>1 · Open with the opportunity</b><div class="quote">«${esc(c.th.frase)}»</div><p>${esc(c.ses.abrir)}</p></div>
+    <div class="move"><b>2 · Move toward the result</b><ul><li>Set an ambitious but realistic challenge.</li><li>Talk about results and metrics.</li><li>${esc(c.tip)}</li></ul></div>
+    <div class="move"><b>3 · Close with a goal and a date</b><div class="quote">«${esc(c.th.fraseCierre)}»</div><p>${esc(c.ses.cerrar)}</p></div>
+  </div>
+  <div class="sec avoid">
+    <h3><span class="ic">✕</span>What makes you lose</h3>
+    <ul>${li(c.th.evitar.slice(0,3).concat(c.tg.evitar.slice(0,1)))}</ul>
+  </div>
+  <div class="sec">
+    <h3><span class="ic">＋</span>Extra edge</h3>
+    <ul style="--dot:var(--naranja)"><li><b>Relationship:</b> ${esc(c.rcorto)}</li><li><b>Generation:</b> ${esc(c.gcorto)} ${esc(c.gshort)}</li><li><b>Recognition that works:</b> ${esc(c.th.cumplido)}</li><li><b>Your challenge:</b> ${esc(c.self.reto)}.</li></ul>
+  </div>
+  <div class="sec">
+    <h3><span class="ic">⚠</span>If it stalls</h3>
+    <p>The trigger is feeling that <b>the goal is not being reached</b>. Go back to the goal, show quick progress and take them seriously.</p>
+  </div>`;
+}
+
+function render(scroll=true){
+  const c=ctx(), t=state.them;
+  let body, extra="";
+  if(t==="rojo") body=rojoHTML(c);
+  else if(t==="azul") body=azulHTML(c);
+  else if(t==="naranja") body=naranjaHTML(c);
+  else body=fullHTML(c,LABELS[t]);
+  if(["rojo","azul","naranja"].includes(t)) extra=`<button class="btn ghost more" id="more" aria-expanded="false">See full guide</button><div id="full" class="hidden">${fullHTML(c,LABELS.base)}</div>`;
+  const html=`${headHTML(c)}${body}${extra}
+  <div class="note">This guide combines the dominant color and the generation. Drives explain more than age; generation adjusts the form (channel, pace and formality). Observe, listen and adapt: every person is unique.</div>
+  <div class="actions">
+    <button class="btn" id="wa">Send via WhatsApp</button>
+    <button class="btn ghost" id="copy">Copy summary</button>
+    <button class="btn ghost" id="again">New search</button>
+  </div>`;
+  const r=$("#result");r.innerHTML=html;r.classList.remove("hidden");
+  const m=$("#more"); if(m) m.onclick=()=>{const f=$("#full");const open=f.classList.toggle("hidden");m.setAttribute("aria-expanded",String(!open));m.textContent=open?"See full guide":"Hide full guide"};
+  $("#wa").onclick=()=>window.open("https://wa.me/?text="+encodeURIComponent(summary()+"\n\nTry it yourself: "+location.href.split("#")[0]),"_blank");
+  $("#copy").onclick=()=>copy(summary());
+  $("#again").onclick=()=>{Object.keys(state).forEach(k=>state[k]=null);document.querySelectorAll("button.opt").forEach(b=>{b.setAttribute("aria-pressed","false");b.disabled=false});r.classList.add("hidden");refresh();window.scrollTo({top:0,behavior:"smooth"})};
+  if(scroll) r.scrollIntoView({behavior:"smooth"});
+}
+
+function summary(){
+  const me=COLORS[state.me], th=COLORS[state.them], tg=GENS[+state.theirGen], mg=GENS[+state.myGen], rel=RELS[state.rel], ses=SES[state.ses];
+  return `MD Conversation Compass · BrainKo
+Me: ${me.n} (${mg.n}) → Other person: ${th.n} (${tg.n})
+Relationship: ${rel.n} · Session: ${ses.n}
+
+OPEN: ${th.abrir}
+Line: «${th.frase}»
+${ses.abrir}
+
+LEAD:
+- ${th.conducir.join("\n- ")}
+- ${ses.c[state.them]}
+
+AVOID:
+- ${th.evitar.concat(tg.evitar).join("\n- ")}
+
+CLOSE: ${th.cerrar}
+Line: «${th.fraseCierre}»
+Follow-up: ${tg.seguimiento}`;
+}
+function copy(t){
+  const done=()=>toast("Summary copied");
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done).catch(()=>fallback(t,done))}else fallback(t,done);
+}
+function fallback(t,cb){const a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");cb()}catch(e){toast("Couldn't copy")}a.remove()}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),1800)}
+
+build();refresh();
+$("#go").addEventListener("click",goClick);
+</script>
+</body>
+</html>
